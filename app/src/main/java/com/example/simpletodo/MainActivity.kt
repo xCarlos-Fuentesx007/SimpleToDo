@@ -30,16 +30,16 @@ class MainActivity : AppCompatActivity() {
                 // 2. Notify the adapter that the data set has changed
                 adapter.notifyDataSetChanged()
 
-                // call saveItems method
+                // Call saveItems method
                 saveItems()
             }
         }
 
         // 1. Detect when user clicks on add button
-        findViewById<Button>(R.id.button).setOnClickListener {
+//        findViewById<Button>(R.id.button).setOnClickListener {
             // Code executed when user clicks on button
 //            Log.i()
-        }
+//        }
 
         // call loadItems method
         loadItems()
@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Instead of calling findViewById<EditText>(R.id.AddTaskField), aka the addTaskField
-        // val inputTextField = findViewById<EditText>(R.id.AddTaskField)
+        val inputTextField = findViewById<EditText>(R.id.AddTaskField)
 
         // Set up button field and input field for tasks.
         findViewById<Button>(R.id.button).setOnClickListener {
             // 1. grab the text the user has inputted into @id/addTaskField
-            val userInputtedTask = findViewById<EditText>(R.id.AddTaskField).text.toString()
+            val userInputtedTask = inputTextField.text.toString()
 
             // 2. Add the string to out list of tasks: listOfTasks
             ListOfTasks.add(userInputtedTask)
@@ -71,7 +71,10 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyItemInserted(ListOfTasks.size - 1)
 
             // 3. reset the text field
-            findViewById<EditText>(R.id.AddTaskField).setText("")
+            inputTextField.setText("")
+
+            // call saveItems method
+            saveItems()
         }
     }
 
@@ -89,7 +92,6 @@ class MainActivity : AppCompatActivity() {
         try {
             ListOfTasks = org.apache.commons.io.FileUtils.readLines(getDataFile(), Charset.defaultCharset())
         }
-
         catch (ioException: IOException) {
             ioException.printStackTrace()
         }
@@ -100,7 +102,6 @@ class MainActivity : AppCompatActivity() {
         try {
             org.apache.commons.io.FileUtils.writeLines(getDataFile(), ListOfTasks)
         }
-
         catch (ioException: IOException) {
             ioException.printStackTrace()
         }
